@@ -27,7 +27,6 @@
       
       body {
         font-family: 'Arial', sans-serif;
-        background: var(--fundo-geral);
         color: var(--cor-primaria);
         line-height: 1.6;
         overflow-x: hidden;
@@ -39,7 +38,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #e8ded2cc; /* semi-transparente */
+        align-content: center;
+        /* From https://css.glass */
+        background: #e8ded2;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(7.6px);
+        -webkit-backdrop-filter: blur(7.6px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(6px);
         padding: 1rem 2rem;
         position: sticky;
@@ -53,8 +59,9 @@
       }
       
       .logo {
-        font-size: 1.7rem;
+        font-size: 1.1rem;
         margin-left: 50px;
+
         
         color: var(--cor-primaria);
       }
@@ -85,17 +92,19 @@
         width: 200%;
         height: 200%;
         background: radial-gradient(circle at 20% 20%, #fff5e1, transparent 40%),
-                    radial-gradient(circle at 80% 30%, #e8ded2, transparent 40%),
+                    radial-gradient(circle at 80% 30%, #5e390d, transparent 40%),
                     radial-gradient(circle at 50% 80%, #f3ebe3, transparent 50%);
         animation: fundoMove 25s linear infinite;
         z-index: -1;
       }
       
+      
       @keyframes fundoMove {
         0% { transform: translate(0, 0) scale(1); }
         50% { transform: translate(-5%, -5%) scale(1.05); }
         100% { transform: translate(0, 0) scale(1); }
-      }
+      } 
+
       
       /* Sections com tons diferentes */
       section {
@@ -109,6 +118,7 @@
       
       #perfil {
         background: var(--fundo-perfil); 
+        
       }
       
       #conquistas {
@@ -429,5 +439,184 @@
         .contador-valor {
             font-size: 1.4rem;
         }
-
       }
+
+      /* From Uiverse.io by 1osm */ 
+/* _______ Card padrão _______ */
+.card {
+  max-width: 405px;
+  width: 100%;
+  height: auto;
+  background: var(--cor-card);
+  box-shadow: 7px 5px 10px rgba(0, 0, 0, 0.333);
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto; /* Centraliza em telas pequenas */
+}
+
+/* _______ Cabeçalho _______ */
+.imge {
+  height: 70px;
+  background-color: var(--cor-primaria);
+  position: relative;
+}
+
+.imge .Usericon {
+  background-color: var(--cor-detalhe);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.imge .UserName {
+  position: absolute;
+  top: 20px;
+  left: 70px;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--cor-detalhe);
+}
+
+.imge .Id {
+  position: absolute;
+  top: 45px;
+  left: 70px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--cor-detalhe);
+}
+
+/* _______ Social Media _______ */
+.social-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  padding: 1rem;
+}
+
+.social-media a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.social-media a svg {
+  color: var(--cor-primaria);
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.social-media a svg:hover {
+  transform: scale(1.2);
+}
+
+/* =====================
+   Ajuste das imagens
+   ===================== */
+
+/* Imagens das polaroids */
+.polaroid img {
+  width: 100%;       /* Ocupar 100% da largura do container */
+  height: auto;      /* Mantém a proporção */
+  display: block;
+}
+
+/* Imagens dos cards */
+.card img {
+  width: 100%;       /* Ocupar 100% da largura */
+  height: auto;      /* Proporção correta */
+  display: block;
+}
+
+/* _______ Polaroid _______ */
+.polaroid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza no meio */
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+.polaroid {
+  width: 100%;
+  max-width: 220px;
+  padding: 10px 10px 20px 10px;
+  background: #fff;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.12),
+    0 2px 2px rgba(0, 0, 0, 0.12),
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    0 8px 8px rgba(0, 0, 0, 0.12);
+  transform: rotate(-2deg);
+  transition: all 0.3s ease;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.photo {
+  max-width: 390px;
+  width: 100%;
+  height: 200px;
+  background: #87ceeb;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =====================
+   Centralização dos Cards e Polaroids
+   ===================== */
+
+/* Container de conquistas (polaroids) */
+.conquistas-grid {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  flex-wrap: wrap;         /* Permite quebra de linha */
+  gap: 2rem;               /* Espaçamento entre os cards */
+  margin: 2rem auto;
+  max-width: 1200px;       /* Limite para não ficar muito esticado */
+}
+
+/* Container de momentos (cards) */
+.momentos-grid {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  flex-wrap: wrap;         /* Quebra linha se precisar */
+  gap: 2rem;               /* Espaço entre os cards */
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+.caption {
+  font-family: "Courier New", monospace;
+  text-align: center;
+  margin-top: 12px;
+  color: #333;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* _______ Responsividade _______ */
+@media (max-width: 768px) {
+  .card {
+    max-width: 90%;
+  }
+
+  .polaroid {
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .polaroid {
+    max-width: 90%;
+  }
+}
