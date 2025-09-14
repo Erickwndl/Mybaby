@@ -54,6 +54,7 @@
       
       .logo {
         font-size: 1.7rem;
+        margin-left: 50px;
         
         color: var(--cor-primaria);
       }
@@ -428,4 +429,5 @@
         .contador-valor {
             font-size: 1.4rem;
         }
+
       }
