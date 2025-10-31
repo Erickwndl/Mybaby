@@ -1,172 +1,175 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BabyBlog</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Bordo - Ian Kevin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  
-  <nav class="navbar">
-    <h1 class="logo">Betina <i><img src="https://img.icons8.com/?size=100&id=1jBlYcdpMaNj&format=png&color=000000" alt=""></i> Kevin</h1>
-    <ul class="menu">
-      <li><a href="#perfil">Perfil</a></li>
-      <li><a href="#conquistas">Conquistas</a></li>
-      <li><a href="#momentos">Momentos</a></li>
-    </ul>
-  </nav>
 
-  <section id="perfil" class="perfil">
-    <div class="perfil-container">
-      <img src="img/perfilultrasom.png" alt="Foto do bebê" class="perfil-img">
-      <h2>NOSSO BABY</h2>
+    <div class="container">
+        
+        <nav class="navbar glass-nav">
+            <div class="logo">
+                <i class="fas fa-heart-pulse"></i>
+                <h3>Ian Kevin</h3>
+            </div>
+            <div class="nav-menu">
+                <ul>
+                    <li class="active"><a href="#home">Home</a></li>
+                    <li><a href="#dashboard">Acompanhamento da Gestação</a></li>
+                </ul>
+            </div>
+        </nav>
 
-      <h3 class="welcome-subtitle">Bem-vindos ao Nosso Mundo!</h3>
-      <p class="welcome-intro">
-        Aqui compartilhamos a jornada mais incrível de nossas vidas: a chegada do nosso pequeno tesouro!
-      </p>
+        <main class="content">
+            <div id="content-pages">
+                
+                <section id="home" class="page active-page">
+                    <div class="home-profile-card">
+                        <div class="profile-image">
+                            <div class="photo-placeholder" style="background-image: url('img/IMG_6123.jpeg');">
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <i class="fas fa-baby-carriage icon-large"></i>
+                            <h1>Ian Kevin</h1>
+                            <p class="profile-status">Nosso Baby a caminho.</p>
+                            <div class="call-to-action">
+                                <a href="#dashboard" class="btn-primary">
+                                    <i class="fas fa-chart-line"></i> Ver Acompanhamento
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="dashboard" class="page">
+                    <header>
+                        <h1>Acompanhamento da Gestação 🍼</h1>
+                        <p>O Ian Kevin chega em <span id="edd-date">--/--/----</span>. Tudo sob controle!</p>
+                    </header>
 
-      <div class="contadores-grid">
-        <div class="contador-item">
-          <span id="gestacao_semanas_dias" class="contador-valor">--</span>
-          <span class="contador-label">Tempo de Gestação</span>
-        </div>
-        <div class="contador-item">
-          <span id="contagem_regressiva" class="contador-valor">--</span>
-          <span class="contador-label">Contagem Regressiva</span>
-        </div>
-      </div>
+                    <div class="card-container">
+                        
+                        <div class="card main-metric">
+                            <div class="card-icon"><i class="fas fa-baby"></i></div>
+                            <h2>Idade Gestacional Atual</h2>
+                            <div class="metric-value-wrapper" style="margin-top: 15px;">
+                                <span id="weeks-current" class="metric-value">--</span>
+                                <span style="font-size: 36px; color: var(--primary-color);">s</span>
+                                <span id="days-current" class="metric-value" style="margin-left: 20px;">--</span>
+                                <span style="font-size: 36px; color: var(--primary-color);">d</span>
+                            </div>
+                            <p id="age-text" class="metric-label">-- semanas e -- dia(s)</p>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <p style="margin-top: 8px; font-size: 14px; opacity: 0.9;"><span id="progress-percentage">--%</span> (<span id="progress-text">-- de 280 dias completos</span>)</p>
+                        </div>
+                        
+                        <div class="card card-audio">
+                            <div class="card-content" style="flex-direction: column; text-align: center;">
+                                <i class="fas fa-heartbeat" style="color: #f54343; font-size: 30px; margin-bottom: 15px;"></i>
 
-      <p id="dias_totais" class="info-secundaria"></p>
-      <p id="estimativa" class="info-principal"></p>
+                                <div class="card-info" style="width: 100%;">
+                                    <h3>Escute o Ian Kevin!</h3>
+                                    <p style="margin-bottom: 15px;">O som mais doce do mundo.</p>
 
-      <div class="tamanho-bebe">
-        <h3>Tamanho Atual</h3>
-        <p id="tamanho"></p>
-      </div>
+                                    <audio id="audioIan" class="baby-audio-player">
+                                        <source src="audio/coracao_ian_kevin.mp3" type="audio/mp3">
+                                        Seu navegador não suporta o elemento de áudio.
+                                    </audio>
+
+                                    <button id="playPauseButton" class="custom-play-button">
+                                        ▶️ Ouvir o Coração
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            // Colocaremos o JavaScript aqui no Passo 3
+                            // O script deve vir logo antes do fechamento do </body>
+
+                            // Obtém a referência aos elementos HTML
+                            const audio = document.getElementById('audioIan');
+                            const button = document.getElementById('playPauseButton');
+
+                            // Estado inicial: 'Tocar'
+                            let isPlaying = false;
+
+                            // Função que lida com o clique do botão
+                            button.addEventListener('click', () => {
+                                if (isPlaying) {
+                                    // Se estiver tocando, pausa
+                                    audio.pause();
+                                    button.innerHTML = '▶️ Tocar o Coração';
+                                } else {
+                                    // Se estiver pausado, toca
+                                    audio.play();
+                                    button.innerHTML = '⏸️ Pausar';
+                                }
+                                // Inverte o estado
+                                isPlaying = !isPlaying;
+                            });
+                        
+                            // Opcional: Reseta o botão para 'Tocar' quando o áudio termina
+                            audio.addEventListener('ended', () => {
+                                isPlaying = false;
+                                button.innerHTML = '▶️ Tocar o Coração';
+                            });
+                        
+                        </script>
+                        
+                        <div class="card">
+                            <div class="card-content">
+                                <i class="fas fa-stopwatch" style="color: var(--primary-color);"></i>
+                                <div class="card-info">
+                                    <h3>Contagem Regressiva</h3>
+                                    <p>Faltam <span id="countdown-days" style="font-weight: 700; color: #ffffff;">--</span> dias para o parto!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-content">
+                                <i class="fas fa-shapes" style="color: #FFC107;"></i>
+                                <div class="card-info">
+                                    <h3>Trimestre</h3>
+                                    <p id="trimester-info" style="font-weight: 700; color: #fff;">-- Trimestre</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-content">
+                                <i class="fas fa-seedling" style="color: #adfc9d;"></i>
+                                <div class="card-info">
+                                    <h3>Tamanho do Bebê</h3>
+                                    <p>Ele tem o tamanho de <span id="baby-size" style="font-weight: 700; color: #fff;">--</span>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-content">
+                                <i class="fas fa-stethoscope" style="color: #E91E63;"></i>
+                                <div class="card-info">
+                                    <h3>Próxima Consulta</h3>
+                                    <p>Morfológica Segundo Trimestre.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
     </div>
-  </section>
-
-
-  <section id="conquistas" class="conquistas">
-    <h2>Conquistas</h2>
-    <div class="conquistas-grid">
-      <div class="polaroid">
-        <div class="photo"> <img src="img/primeiroteste2.png" alt="">
-        </div>
-        <div class="caption">Primeiro Teste</div>
-        <div class="caption">29/07/2025</div>
-      </div>
-      <div class="polaroid">
-        <div class="photo"> <img src="img/newluara22.png" alt="">
-        </div>
-        <div class="caption">Primeira Priminha a Saber da minha chegada</div>
-      </div>
-      <div class="polaroid">
-        <div class="photo"> <img src="img/perfilultrasomultimo.png" alt="">
-        </div>
-        <div class="caption">Primeiro Ultrasom</div>
-         <div class="caption">19/08/2025</div>
-      </div>
-      <div class="polaroid">
-        <div class="photo"> <img src="img/roupas2222.png" alt="">
-        </div>
-        <div class="caption">Primeiros Presentinhos</div>
-      </div>
-      <div class="polaroid">
-        <div class="photo"> <img src="img/amomeupapai.png" alt="">
-        </div>
-        <div class="caption">Primeiro Dia dos Pais</div>
-        <div class="caption">10/08/2025</div>
-      </div>
-      <div class="polaroid">
-        <div class="photo"> <img src="img/cearamornew.png" alt="">
-        </div>
-        <div class="caption">Meu Primeiro Manto</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="momentos" class="momentos">
-    <h2>Nossos Momentos Especiais</h2>
-    <div class="momentos-grid" id="momentos-feed">
-      
-    <div class="card">
-
-      <div class="imge">
-        <img class="Usericon" src="https://img.icons8.com/?size=100&id=1jBlYcdpMaNj&format=png&color=000000" alt="">
-        <p class="UserName">Nenem a Bordo</p>
-        <p class="Id">@Nenemdamamãe</p>
-      </div>
     
-      <div class="Description"> <img src="img/novo390papai.png" alt=""></div>
-    
-      <div class="social-media">
-        <p>EU o Papai e a Mamãe s2 </p>
-            <!-- <a href="#">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                </svg>
-            </a>
-            <a href="#">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
-                </svg>
-            </a>
-            <a href="#">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path>
-                </svg>
-            </a>
-            <a href="#">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
-                </svg>
-            </a> -->
-      </div>
-      
-    </div>
-      
-    <div class="card">
-      <div class="imge">
-        <img class="Usericon" src="https://img.icons8.com/?size=100&id=1jBlYcdpMaNj&format=png&color=000000" alt="">
-        <p class="UserName">Nenem a Bordo</p>
-        <p class="Id">@Nenemdamamãe</p>
-      </div>
-    
-      <div class="Description"> <img src="img/290p326lua.png" alt=""></div>
-    
-      <div class="social-media">
-          <p>Priminha Luara com Meu teste</p>
-        </div>
-            <!-- <a href="#">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                </svg>
-            </a>
-            <a href="#">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
-                </svg>
-            </a>
-            <a href="#">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path>
-                </svg>
-            </a>
-            <a href="#">
-                <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
-                </svg>
-            </a> -->
-      </div>
-      
-    </div>
-
-    </div>
-  </section>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
