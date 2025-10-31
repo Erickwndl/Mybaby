@@ -1,158 +1,119 @@
-// ======================================
-// LÓGICA DO PERFIL (CALCULADORA DE GESTAÇÃO)
-// ======================================
+// --- CONFIGURAÇÕES DE DATA (MANUALMENTE CONFIGURADAS) ---
+// Data Estimada do Parto (EDD): 30 de Março de 2026
+const EDD = new Date('2026-03-30T00:00:00'); 
+// Data da Última Menstruação (LMP): 23 de Junho de 2025
+const LMP = new Date('2025-06-23T00:00:00'); 
 
-// Definir a data prevista do parto
-const dataParto = new Date("2026-04-04T00:00:00"); // Definido para o fim do dia
-const dataInicioGestacao = new Date("2025-06-28T00:00:00"); // Definido como início do dia
+// Tamanhos do bebê
+const BABY_SIZES = [
+    { week: 14, size: 'Limão 🍋' },
+    { week: 18, size: 'Pimentão 🫑' }, // 18 semanas
+    { week: 24, size: 'Berinjela 🍆' },
+    { week: 30, size: 'Repolho 🥬' },
+    { week: 36, size: 'Melão 🍈' }
+];
 
-// Função para formatar a data (Ex: 04 de Abril de 2026)
-function formatarData(data) {
-  return data.toLocaleDateString("pt-BR", { year: 'numeric', month: 'long', day: '2-digit' });
+// --- FUNÇÕES DE CÁLCULO ---
+
+function calculateDays(date1, date2) {
+    const diffTime = date2.getTime() - date1.getTime();
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
 }
 
-// Atualizar informações do perfil
-function atualizarPerfil() {
-  const hoje = new Date();
-  
-  // 1. Cálculo da Gestação (Progressivo)
-  const diffMs = hoje - dataInicioGestacao;
-  const diasGestacao = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const semanasGestacao = Math.floor(diasGestacao / 7);
-  const diasExtrasGestacao = diasGestacao % 7;
-
-  // 2. Cálculo do Restante (Regressivo)
-  const diffMsRestantes = dataParto - hoje;
-  const diasRestantes = Math.ceil(diffMsRestantes / (1000 * 60 * 60 * 24)); // Usamos ceil para contagem regressiva
-  const semanasRestantes = Math.floor(diasRestantes / 7);
-  const diasExtrasRestantes = diasRestantes % 7;
-
-  // Tamanhos aproximados por semana (exemplo simplificado)
-  const tamanhos = {
-    10: { comprimento: "3.1 cm", peso: "4 g", fruta: "azeitona", animal: "besouro" },
-    11: { comprimento: "4.1 cm", peso: "7 g", fruta: "figo", animal: "hamster" },
-    12: { comprimento: "5.4 cm", peso: "14 g", fruta: "lima", animal: "ratinho" }, // Peso ajustado (exemplo)
-    13: { comprimento: "7.4 cm", peso: "23 g", fruta: "ameixa", animal: "canário" },
-    14: { comprimento: "8.7 cm", peso: "43 g", fruta: "limão siciliano", animal: "pardal" },
-    15: { comprimento: "10 cm", peso: "70 g", fruta: "maçã", animal: "pássaro" },
-    16: { comprimento: "11.6 cm", peso: "100 g", fruta: "abacate", animal: "pomba" },
-    // Adicione mais semanas conforme necessário...
-    20: { comprimento: "16.4 cm", peso: "300 g", fruta: "banana", animal: "gatinho" },
-    25: { comprimento: "34.6 cm", peso: "660 g", fruta: "couve-flor", animal: "pato grande" },
-    30: { comprimento: "39.9 cm", peso: "1.3 kg", fruta: "abacaxi", animal: "raposa pequena" },
-    35: { comprimento: "46.2 cm", peso: "2.4 kg", fruta: "melancia pequena", animal: "beagle" },
-    40: { comprimento: "51.8 cm", peso: "3.5 kg", fruta: "abóbora gigante", animal: "filhote de cachorro" }
-  };
-  
-  // Escolher o tamanho baseado na semana atual
-  const tamanhoAtual = tamanhos[semanasGestacao] || { comprimento: "–", peso: "–", fruta: "uma surpresa", animal: "um mistério" };
-
-  // 3. Preencher no HTML com os novos IDs
-  
-  // Contador Progressivo (Semanas E Dias)
-  document.getElementById("gestacao_semanas_dias").innerHTML = 
-    `${semanasGestacao} <span class="contador-label-inline">sem</span> e ${diasExtrasGestacao} <span class="contador-label-inline">dias</span>`;
-
-  // Contador Regressivo (Semanas E Dias)
-  document.getElementById("contagem_regressiva").innerHTML = 
-    `${semanasRestantes} <span class="contador-label-inline">sem</span> e ${diasExtrasRestantes} <span class="contador-label-inline">dias</span>`;
-
-  // Informações secundárias
-  document.getElementById("dias_totais").innerText = `(Total de ${diasGestacao} dias de jornada)`;
-  document.getElementById("estimativa").innerText = `Data Prevista: ${formatarData(dataParto)}`;
-  
-  // Tamanho do bebê
-  document.getElementById("tamanho").innerText =
-    `Comprimento: ${tamanhoAtual.comprimento}, Peso: ${tamanhoAtual.peso} 
-    (aprox. do tamanho de ${tamanhoAtual.fruta} ou de um(a) ${tamanhoAtual.animal})`;
+function calculateGestationalAge(days) {
+    const weeks = Math.floor(days / 7);
+    const daysRemainder = days % 7;
+    return { weeks, daysRemainder };
 }
 
-// Chamar a função de atualização do perfil ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    atualizarPerfil();
-    setInterval(atualizarPerfil, 1000 * 60 * 60); // Atualiza a cada hora
-});
-
-
-// ======================================
-// LÓGICA DOS MOMENTOS (SISTEMA DE COMENTÁRIOS)
-// ======================================
-
-// Tenta carregar comentários do localStorage. Se não houver, começa um objeto vazio.
-const comentariosData = JSON.parse(localStorage.getItem('momentosComentarios')) || {};
-
-/**
- * Renderiza os comentários salvos para um post específico na tela.
- * @param {string} postId - O ID único do post (ex: "barriga-crescendo")
- */
-function renderComentarios(postId) {
-  // Encontra a lista (ul) correta, subindo do formulário para o card pai e depois descendo para a lista
-  const comentariosLista = document.querySelector(`.comentario-form[data-post-id="${postId}"]`)
-                                  .closest('.momento-card')
-                                  .querySelector('.comentarios-lista');
-  
-  if (!comentariosLista) return; // Segurança caso o elemento não exista
-
-  comentariosLista.innerHTML = ''; // Limpa os comentários existentes para não duplicar
-
-  const postComentarios = comentariosData[postId] || [];
-  
-  postComentarios.forEach(comentario => {
-    const li = document.createElement('li');
-    // Adiciona o HTML do comentário, tratando os valores para evitar XSS (embora simples aqui)
-    const nomeSeguro = document.createTextNode(comentario.nome).textContent;
-    const textoSeguro = document.createTextNode(comentario.texto).textContent;
-    li.innerHTML = `<strong>${nomeSeguro}:</strong> ${textoSeguro}`;
-    comentariosLista.appendChild(li);
-  });
-
-  // Scroll para o último comentário se a lista for muito longa
-  comentariosLista.scrollTop = comentariosLista.scrollHeight;
+function getTrimester(weeks) {
+    if (weeks >= 1 && weeks <= 13) return "Primeiro Trimestre";
+    if (weeks >= 14 && weeks <= 27) return "Segundo Trimestre";
+    if (weeks >= 28) return "Terceiro Trimestre";
+    return "Jornada Inicial";
 }
 
-/**
- * Adiciona um novo comentário aos dados e ao localStorage.
- * @param {string} postId - ID do post.
- * @param {string} nome - Nome do usuário.
- * @param {string} texto - O comentário.
- */
-function addComentario(postId, nome, texto) {
-  if (!comentariosData[postId]) {
-    comentariosData[postId] = []; // Cria o array para este post se for o primeiro comentário
-  }
-  
-  comentariosData[postId].push({ nome, texto, timestamp: new Date().toISOString() });
-  
-  // Salva a estrutura inteira de comentários no localStorage
-  localStorage.setItem('momentosComentarios', JSON.stringify(comentariosData));
-  
-  // Atualiza a tela
-  renderComentarios(postId);
+function getBabySize(currentWeek) {
+    const relevantSize = BABY_SIZES.slice().reverse().find(s => s.week <= currentWeek);
+    return relevantSize ? relevantSize.size : 'uma sementinha 🌱';
 }
 
-// Adiciona event listeners para TODOS os formulários de comentário da página
-document.querySelectorAll('.comentario-form').forEach(form => {
-  const postId = form.dataset.postId;
-  
-  // 1. Renderiza comentários existentes assim que a página carregar
-  renderComentarios(postId); 
+// --- ATUALIZAÇÃO DO DASHBOARD (MÉTRICAS) ---
 
-  // 2. Adiciona o listener para o envio (submit) do formulário
-  form.addEventListener('submit', function(event) {
-    event.preventDefault(); // Impede o recarregamento da página
+function updateDashboardMetrics() {
+    const TODAY = new Date();
+    const totalPregnancyDuration = 280; 
+
+    const daysPregnant = calculateDays(LMP, TODAY); 
+    const { weeks, daysRemainder } = calculateGestationalAge(daysPregnant);
     
-    const nomeInput = this.querySelector('.comentario-nome');
-    const textoInput = this.querySelector('.comentario-texto');
+    const daysUntilEDD = calculateDays(TODAY, EDD);
+    
+    const daysCompleted = daysPregnant;
+    const progressPercentage = Math.min(100, Math.floor((daysCompleted / totalPregnancyDuration) * 100));
 
-    const nome = nomeInput.value.trim();
-    const texto = textoInput.value.trim();
+    // --- Injeção no DOM ---
+    
+    document.getElementById('weeks-current').textContent = `${weeks}`;
+    document.getElementById('days-current').textContent = `${daysRemainder}`;
+    document.getElementById('age-text').textContent = `${weeks} semanas e ${daysRemainder} dia(s)`;
 
-    if (nome && texto) {
-      addComentario(postId, nome, texto);
-      // nomeInput.value = ''; // Opcional: manter o nome para comentários múltiplos
-      textoInput.value = ''; // Limpa o texto
-    } else {
-      alert('Por favor, preencha seu nome e o comentário.');
-    }
-  });
+    document.getElementById('countdown-days').textContent = `${daysUntilEDD}`;
+    document.getElementById('edd-date').textContent = `${EDD.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}`;
+    
+    document.getElementById('trimester-info').textContent = getTrimester(weeks);
+
+    document.getElementById('progress-percentage').textContent = `${progressPercentage}%`;
+    document.getElementById('progress-text').textContent = `${daysCompleted} de ${totalPregnancyDuration} dias completos`;
+    document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+    
+    document.getElementById('baby-size').textContent = getBabySize(weeks);
+}
+
+// --- FUNÇÃO DE NAVEGAÇÃO ---
+function setupPageNavigation() {
+    // Seleciona todos os links que apontam para uma seção interna (#id)
+    const navLinks = document.querySelectorAll('.nav-menu a, .call-to-action a');
+    const sections = document.querySelectorAll('.page');
+    const navItems = document.querySelectorAll('.nav-menu li');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            
+            // 1. Esconde todas as seções e remove a classe ativa
+            sections.forEach(section => {
+                section.classList.remove('active-page');
+            });
+
+            // 2. Mostra a seção alvo
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active-page');
+                
+                // Rola a página para o topo do container (opcional, mas limpa a vista)
+                document.querySelector('.container').scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // 3. Atualiza a classe 'active' na navbar (apenas para links que estão na navbar)
+            navItems.forEach(item => item.classList.remove('active'));
+            const parentLi = this.closest('li');
+            if (parentLi) {
+                parentLi.classList.add('active');
+            }
+        });
+    });
+}
+
+
+// --- INICIALIZAÇÃO ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Inicializa as métricas do Dashboard
+    updateDashboardMetrics();
+    
+    // 2. Configura a navegação entre Home e Dashboard
+    setupPageNavigation();
 });
